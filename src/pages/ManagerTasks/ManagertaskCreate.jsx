@@ -88,12 +88,14 @@ const AdminTasks = () => {
     const loadingToast = toast.loading("Saving task...");
     if (editMode) {
       await axios.put(`${API}/update/${form.id}`, form);
+      setShowModal(false);
       toast.dismiss(loadingToast);
       toast.success("Task Created Successfully", {
         autoClose: 2000,
       });
     } else {
       await axios.post(`${API}/create`, form);
+      setShowModal(false);
       toast.dismiss(loadingToast);
       toast.success("Task Created Successfully", {
         autoClose: 2000,
