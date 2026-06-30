@@ -27,9 +27,6 @@ const Login = () => {
       );
 
       toast.dismiss(loadingToast);
-      toast.success(response?.data?.message || "Logged In Successfully", {
-        autoClose: 2000,
-      });
 
       // ✅ SAVE USER DATA HERE (FRONTEND ONLY)
       localStorage.setItem(
@@ -42,11 +39,17 @@ const Login = () => {
         }),
       );
 
-      if (user.role === "manager") {
-        navigate("/Dashboard");
-      } else {
-        navigate("/Dashboard");
-      }
+      navigate("/Dashboard");
+
+      toast.success(response?.data?.message || "Logged In Successfully", {
+        autoClose: 2000,
+      });
+
+      // if (user.role === "manager") {
+      //   navigate("/Dashboard");
+      // } else {
+      //   navigate("/Dashboard");
+      // }
     } catch (error) {
       // const msg = error.response?.data?.message || "Login failed";
       // alert(msg);
