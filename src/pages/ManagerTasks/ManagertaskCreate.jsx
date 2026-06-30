@@ -112,7 +112,7 @@ const AdminTasks = () => {
     try {
       if (editMode) {
         await axios.put(`${API}/update/${form.id}`, form);
-
+        setShowModal(false);
         toast.update(loadingToast, {
           render: "Task Updated Successfully",
           type: "success",
@@ -121,7 +121,7 @@ const AdminTasks = () => {
         });
       } else {
         await axios.post(`${API}/create`, form);
-
+        setShowModal(false);
         toast.update(loadingToast, {
           render: "Task Created Successfully",
           type: "success",
