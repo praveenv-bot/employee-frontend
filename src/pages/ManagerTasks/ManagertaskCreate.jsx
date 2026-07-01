@@ -7,6 +7,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const API = "https://employee-backend-0fnt.onrender.com/api/managertasks";
+
 const EMP_API = "https://employee-backend-0fnt.onrender.com/api/employee/list";
 
 // const emptyForm = {
@@ -294,37 +295,73 @@ const AdminTasks = () => {
 
   // ================= SAVE =================
 
+  // const saveTask = async () => {
+  //   const loadingToast = toast.loading("Saving task...");
+  //   setShowModal(false);
+
+  //   try {
+  //     if (editMode) {
+  //       const response = await axios.put(`${API}/update/${form.id}`, form);
+  //       toast.dismiss(loadingToast);
+  //       toast.success(response?.data?.message || "Task Updated Successfully", {
+  //         autoClose: 2000,
+  //       });
+  //     } else {
+  //       const response = await axios.post(`${API}/create`, form);
+  //       toast.dismiss(loadingToast);
+  //       toast.success(response?.data?.message || "Task Created Successfully", {
+  //         autoClose: 2000,
+  //       });
+  //     }
+
+  //     await fetchTasks();
+  //   } catch (err) {
+  //     console.error(err);
+
+  //     toast.error(err.response?.data?.message || "Failed to save task", {
+  //       autoClose: 3000,
+  //     });
+  //   }
+  // };
+
   const saveTask = async () => {
     const loadingToast = toast.loading("Saving task...");
 
+    console.log("1. Started");
+
+    setShowModal(false);
+
     try {
+      console.log("2. Before API");
+
+      let response;
+
       if (editMode) {
-        await axios.put(`${API}/update/${form.id}`, form);
+        response = await axios.put(`${API}/update/${form.id}`, form);
       } else {
-        await axios.post(`${API}/create`, form);
+        response = await axios.post(`${API}/create`, form);
       }
+
+      console.log("3. API Finished");
+      console.log(response);
+
+      toast.dismiss(loadingToast);
+
+      console.log("4. Toast Dismissed");
+
+      toast.success(response?.data?.message);
+
+      console.log("5. Success Toast");
 
       await fetchTasks();
 
-      setShowModal(false);
-
-      toast.update(loadingToast, {
-        render: editMode
-          ? "Task Updated Successfully"
-          : "Task Created Successfully",
-        type: "success",
-        isLoading: false,
-        autoClose: 2000,
-      });
+      console.log("6. Fetch Completed");
     } catch (err) {
-      console.error(err);
+      console.log("ERROR", err);
 
-      toast.update(loadingToast, {
-        render: err.response?.data?.message || "Failed to save task",
-        type: "error",
-        isLoading: false,
-        autoClose: 3000,
-      });
+      toast.dismiss(loadingToast);
+
+      toast.error(err.response?.data?.message || err.message);
     }
   };
 
